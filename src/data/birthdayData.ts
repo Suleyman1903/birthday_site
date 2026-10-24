@@ -27,7 +27,10 @@ export const birthdayData = {
       image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&auto=format&fit=crop&q=80',
     },
   ],
-  // Sana Dileklerim kısmındaki tek kartın içine gelecek metin:
+  // Kartpostalın ön yüzünde yer alacak fotoğraf (public/images içindeki dosya):
+  postcardImage: '/images/IMG-20261016-WA0041.jpg',
+
+  // Sana Dileklerim kısmındaki kartpostalın arka yüzüne gelecek metin:
   wishMessage:
     'Tanıştığımız ilk gün nedense sana yardım etme isteği geldi içimden. O gün cidden düşünmüştüm hiç tanımadığım birine neden bu kadar can atarak yardım ettiğimi. Ama gün geçtikçe ve seni tanıdıkça anlıyorum ki bu tesadüf değilmiş. O günden sonra çevredeki insanlardan gerçekten farklı olduğun zaten çok belliydi. Karakterin, terbiyen, duruşun bana hep "İşte bu kız farklı" dedirtti. Bazen tartıştık bazen çok güldük eğlendik ama en önemlisi her zaman yan yanaydık ve birbirimize destek olduk. Umarım her anımız böyle devam ederrr...      \nNice senelere balımmmm! 💕✨',
   wishes: [],

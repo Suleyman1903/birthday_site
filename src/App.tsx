@@ -4,9 +4,8 @@ import Hero from '@/components/Hero';
 import Cake from '@/components/Cake';
 import Confetti from '@/components/Confetti';
 import FloatingDecorations from '@/components/FloatingDecorations';
-import WishCards from '@/components/WishCards';
-import MemoryTimeline from '@/components/MemoryTimeline';
 import SongsSection from '@/components/SongsSection';
+import WishCards from '@/components/WishCards';
 import Closing from '@/components/Closing';
 import { birthdayData } from '@/data/birthdayData';
 
@@ -36,7 +35,6 @@ function App() {
         <main className="relative w-full max-w-full overflow-x-hidden">
           <Hero active={opened} />
           <Cake onAllBlown={handleCandlesBlown} />
-          <MemoryTimeline />
           <SongsSection />
           <WishCards />
           <Closing />
