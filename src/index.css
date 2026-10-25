@@ -19,9 +19,14 @@
     position: relative;
     touch-action: manipulation;
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: linear-gradient(135deg, #FFF8F3 0%, #FFF0F5 50%, #FFE8D6 100%);
-    background-size: 200% 200%;
-    animation: gradientShift 8s ease infinite;
+    background-color: #FFF8F3;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(255, 240, 245, 0.85) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(255, 232, 214, 0.75) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(255, 224, 236, 0.7) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(255, 248, 243, 0.85) 0px, transparent 50%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
@@ -40,14 +45,18 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shimmer 3s linear infinite;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 
   .glass-card {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow: 0 8px 32px rgba(255, 107, 157, 0.12);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 8px 24px rgba(255, 107, 157, 0.08);
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -58,19 +67,24 @@
     scrollbar-width: none;
   }
 
-  /* 3D Postcard Flip Utilities */
+  /* 3D Postcard Flip Utilities - iOS WebKit Accelerated */
   .perspective-1000 {
     perspective: 1000px;
+    -webkit-perspective: 1000px;
   }
   .transform-style-3d {
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
   }
   .backface-hidden {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
   .rotate-y-180 {
     transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
   }
 }
 

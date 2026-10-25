@@ -1,4 +1,4 @@
-import { useEffect, useMemo, type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { Heart, Star, Sparkles } from 'lucide-react';
 
 type Item = {
@@ -18,27 +18,31 @@ const ICONS = [
 ];
 
 const COLORS = [
-  'text-rose-200/40',
-  'text-peach-200/35',
-  'text-gold-200/35',
-  'text-rose-300/35',
+  'text-rose-200/35',
+  'text-peach-200/30',
+  'text-gold-200/30',
+  'text-rose-300/30',
 ];
 
 export default function FloatingDecorations() {
+  // Reduced to 8 gentle particles for ultra-smooth 60/120 FPS on iOS
   const items = useMemo<Item[]>(() => {
-    return Array.from({ length: 18 }, (_, i) => ({
+    return Array.from({ length: 8 }, (_, i) => ({
       id: i,
-      left: `${(i * 5.4 + (i % 3) * 2.1) % 92 + 4}%`,
-      delay: `${(i * 0.55) % 8}s`,
-      duration: `${8 + (i % 4) * 1.5}s`,
-      size: 14 + (i % 4) * 5,
+      left: `${(i * 11.5 + 6) % 88 + 6}%`,
+      delay: `${(i * 1.2) % 6}s`,
+      duration: `${10 + (i % 3) * 2}s`,
+      size: 16 + (i % 3) * 6,
       icon: ICONS[i % ICONS.length],
       color: COLORS[i % COLORS.length],
     }));
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none">
+    <div
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none"
+      style={{ contain: 'strict' }}
+    >
       {items.map((item) => (
         <div
           key={item.id}
@@ -49,6 +53,9 @@ export default function FloatingDecorations() {
             animationDuration: item.duration,
             width: `${item.size}px`,
             height: `${item.size}px`,
+            willChange: 'transform',
+            transform: 'translate3d(0, 0, 0)',
+            WebkitTransform: 'translate3d(0, 0, 0)',
           }}
         >
           {item.icon}

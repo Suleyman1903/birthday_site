@@ -177,6 +177,9 @@ export default function SongsSection() {
                   style={{
                     backgroundImage:
                       'repeating-radial-gradient(circle, #292524 0, #1c1917 2px, #292524 4px)',
+                    willChange: isPlaying ? 'transform' : 'auto',
+                    transform: 'translateZ(0)',
+                    WebkitTransform: 'translateZ(0)',
                   }}
                 >
                   {/* Vinyl grooves shine overlay */}

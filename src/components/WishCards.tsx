@@ -72,6 +72,7 @@ export default function WishCards() {
             className={`relative w-full min-h-[480px] sm:min-h-[530px] rounded-3xl transition-transform duration-700 transform-style-3d cursor-pointer select-none group ${
               isFlipped ? 'rotate-y-180' : ''
             }`}
+            style={{ willChange: 'transform' }}
             title="Kartpostalı çevirmek için tıkla"
           >
             {/* FRONT FACE (Photograph side) */}

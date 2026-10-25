@@ -133,7 +133,10 @@ export default function Cake({ onAllBlown }: CakeProps) {
 
                   {/* Flame */}
                   {isLit && (
-                    <div className={`relative -mb-1 ${isBlowing ? 'animate-flame-out' : ''}`}>
+                    <div
+                      className={`relative -mb-1 ${isBlowing ? 'animate-flame-out' : ''}`}
+                      style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+                    >
                       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gold-300/50 blur-sm animate-flicker" />
                       <Flame
                         className="relative w-5 h-6 text-gold-400 drop-shadow-[0_0_8px_rgba(246,190,0,0.6)] animate-flicker"
