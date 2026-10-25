@@ -1,132 +1,77 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import confetti from 'canvas-confetti';
 
-type ConfettiPiece = {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  rotation: number;
-  rotationSpeed: number;
-  color: string;
-  size: number;
-  shape: number;
-  gravity: number;
-};
-
-const COLORS = [
-  '#FF6B9D',
-  '#FFB380',
-  '#FFD966',
-  '#FF7BA8',
-  '#C2D9BD',
-  '#FFE0EC',
-  '#F6BE00',
+const ROMANTIC_COLORS = [
+  '#FF6B9D', // Rose pink
+  '#FFB380', // Soft peach
+  '#FFD966', // Warm gold
+  '#FF7BA8', // Romantic magenta
+  '#C2D9BD', // Sage green accent
+  '#FFE0EC', // Baby pink
+  '#F6BE00', // Sparkling gold
 ];
+
+// Helper for triggering smooth confetti bursts from anywhere
+export function fireConfettiBurst() {
+  // Center fountain burst
+  confetti({
+    particleCount: 65,
+    spread: 80,
+    origin: { x: 0.5, y: 0.65 },
+    colors: ROMANTIC_COLORS,
+    startVelocity: 38,
+    gravity: 0.85,
+    scalar: 1.05,
+    ticks: 220,
+    disableForReducedMotion: true,
+  });
+
+  // Staggered left & right celebratory cannons (150ms later)
+  setTimeout(() => {
+    confetti({
+      particleCount: 40,
+      angle: 60,
+      spread: 60,
+      origin: { x: 0.05, y: 0.75 },
+      colors: ROMANTIC_COLORS,
+      startVelocity: 42,
+      gravity: 0.9,
+      scalar: 0.95,
+      ticks: 200,
+      disableForReducedMotion: true,
+    });
+
+    confetti({
+      particleCount: 40,
+      angle: 120,
+      spread: 60,
+      origin: { x: 0.95, y: 0.75 },
+      colors: ROMANTIC_COLORS,
+      startVelocity: 42,
+      gravity: 0.9,
+      scalar: 0.95,
+      ticks: 200,
+      disableForReducedMotion: true,
+    });
+  }, 160);
+}
 
 type ConfettiProps = {
   active: boolean;
   duration?: number;
-  count?: number;
 };
 
-export default function Confetti({ active, duration = 6000, count = 80 }: ConfettiProps) {
+export default function Confetti({ active }: ConfettiProps) {
+  const prevActiveRef = useRef(false);
+
   useEffect(() => {
-    if (!active) return;
+    // Only fire when transitioning from false -> true
+    if (active && !prevActiveRef.current) {
+      fireConfettiBurst();
+    }
+    prevActiveRef.current = active;
+  }, [active]);
 
-    const canvas = document.getElementById('confetti-canvas') as HTMLCanvasElement | null;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let pieces: ConfettiPiece[] = [];
-    let raf = 0;
-    let start = Date.now();
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const spawn = (n: number) => {
-      for (let i = 0; i < n; i++) {
-        pieces.push({
-          x: canvas.width / 2 + (Math.random() - 0.5) * 100,
-          y: canvas.height / 3,
-          vx: (Math.random() - 0.5) * 12,
-          vy: Math.random() * -10 - 4,
-          rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 12,
-          color: COLORS[Math.floor(Math.random() * COLORS.length)],
-          size: Math.random() * 8 + 4,
-          shape: Math.floor(Math.random() * 3),
-          gravity: 0.25 + Math.random() * 0.15,
-        });
-      }
-    };
-
-    spawn(count);
-
-    const draw = () => {
-      const elapsed = Date.now() - start;
-      if (elapsed > duration) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        return;
-      }
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      pieces = pieces.filter((p) => p.y < canvas.height + 50);
-
-      for (const p of pieces) {
-        p.vy += p.gravity;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rotation += p.rotationSpeed;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rotation * Math.PI) / 180);
-        ctx.fillStyle = p.color;
-
-        if (p.shape === 0) {
-          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.5);
-        } else if (p.shape === 1) {
-          ctx.beginPath();
-          ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
-          ctx.fill();
-        } else {
-          ctx.beginPath();
-          ctx.moveTo(0, -p.size / 2);
-          ctx.lineTo(p.size / 2, p.size / 2);
-          ctx.lineTo(-p.size / 2, p.size / 2);
-          ctx.closePath();
-          ctx.fill();
-        }
-
-        ctx.restore();
-      }
-
-      raf = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener('resize', resize);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    };
-  }, [active, duration, count]);
-
-  return (
-    <canvas
-      id="confetti-canvas"
-      className={`pointer-events-none fixed inset-0 z-50 transition-opacity duration-500 ${
-        active ? 'opacity-100' : 'opacity-0'
-      }`}
-    />
-  );
+  // canvas-confetti handles its own lightweight canvas lifecycle automatically
+  return null;
 }

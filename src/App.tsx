@@ -19,9 +19,8 @@ function App() {
   };
 
   const handleCandlesBlown = () => {
-    setConfettiActive(true);
-    setTimeout(() => setConfettiActive(false), 100);
-    setTimeout(() => setConfettiActive(true), 150);
+    setConfettiActive(false);
+    setTimeout(() => setConfettiActive(true), 50);
   };
 
   return (
